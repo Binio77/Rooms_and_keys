@@ -51,7 +51,6 @@ int find_room_index(Room *_rooms, int _room_number, int _num_of_rooms)
 {
     for(int i = 0; i < _num_of_rooms; i++)
     {
-        printf("%i %i\n", _rooms->room_number, _room_number);
         if((_rooms + i)->room_number == _room_number)
             return i;
     }
@@ -134,11 +133,29 @@ int main()
                     printf("%c", '!');
                 else
                 {
-
                     rooms[persons_room_index].key_holder->number_of_keys++;
                     Room *room = &rooms[room_index];
-                    rooms[room_index].key_holder->number_of_keys--;
+                    room->key_holder->number_of_keys--;
                     rooms[room_index].key_holder = rooms[persons_room_index].key_holder;
+
+                    if(room->key_holder->number_of_keys <= 0)
+                    {
+                        if(room->key_holder->index != num_of_people - 1)
+                        {
+                            for (int i = room->key_holder->index; i < num_of_people - 1; i++)
+                            {
+                                people[i] = people[i + 1];
+                                people[i].index--;
+                            }
+                        }
+
+                        num_of_people--;
+                        change_num_of_people(&people, num_of_people);
+
+
+                    }
+
+
                 }
                 break;
             }
