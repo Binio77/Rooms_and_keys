@@ -94,6 +94,8 @@ int main()
                     Room *room = &rooms[room_index];
                     if(room->key_holder != NULL)
                         room->key_holder->key_count--;
+                    if(room->key_holder->key_count == 0)
+                        free(room->key_holder);
                     rooms[room_index].key_holder = rooms[persons_room_index].key_holder;
                 }
                 break;
@@ -108,6 +110,7 @@ int main()
             }
         }
     }
+    free(rooms);
 
     return 0;
 }
